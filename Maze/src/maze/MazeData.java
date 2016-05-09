@@ -5,9 +5,11 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class MazeData {
-	private final boolean[][] data;
-	private final boolean[][] touched;
-	private final boolean[][] monster;
+	private enum Tile {
+		WALL, ENEMY, BLANK, TOUCHED
+	};
+
+	private final Tile[][] data;
 	private ArrayList<Enemy> enemylist = new ArrayList<Enemy>();
 	public final int J, I;
 
@@ -27,9 +29,7 @@ public class MazeData {
 		blocksize = blok;
 		I = ((width / 2) * 2) + 1; // make sides odd
 		J = ((height / 2) * 2) + 1;
-		touched = new boolean[J][I];
-		monster = new boolean[J][I];
-		data = new boolean[J][I]; // Initialize maze array to no walls
+		data = new Tile[J][I]; // Initialize maze array to no walls
 		encloseBoundaries(); // Add walls around the edges of maze
 		fillMaze(complex, density);
 	}
@@ -42,13 +42,13 @@ public class MazeData {
 		// Outside bounds is NO Monsters
 		if (j >= J || j < 0 || i < 0 || i >= I)
 			return false;
-		return monster[j][i];
+		return data[j][i] == Tile.ENEMY;
 	}
 
 	public void addMonster(Enemy e) {
 		int[] ij = newMonsterIJ();
 
-		monster[ij[1]][ij[0]] = true;
+		data[ij[1]][ij[0]] = Tile.ENEMY;
 		enemylist.add(e);
 	}
 
@@ -60,7 +60,7 @@ public class MazeData {
 		// outside bounds can be classified as walls
 		if (j >= J || j < 0 || i < 0 || i >= I)
 			return true;
-		return data[j][i];
+		return data[j][i] == Tile.WALL;
 	}
 
 	public boolean win() {
@@ -80,47 +80,46 @@ public class MazeData {
 			int ix = x + (i - centerI) * blocksize;
 			for (int j = js; j < je; j++) {
 				int jy = y + (j - centerJ) * blocksize;
-				g.setColor(Color.BLACK);
-				if (data[j][i]) {
+				
+				switch (data[j][i]) {
+				case WALL:
+					g.setColor(Color.BLACK);
 					g.fillRect(ix, jy, blocksize, blocksize);
-				} else {
-					// g.drawRect(ix, jy, blocksize, blocksize);
-				}
-				g.setColor(Color.GREEN);
-				if (touched[j][i]) {
+					break;
+				case TOUCHED:
+					g.setColor(Color.GREEN);
 					g.fillRect(ix + 1, jy + 1, blocksize - 1, blocksize - 1);
-				}
-				g.setColor(Color.RED);
-				if (monster[j][i]) {
+					break;
+				case ENEMY:
+					g.setColor(Color.RED);
 					g.fillRect(ix + 1, jy + 1, blocksize - 1, blocksize - 1);
+					break;
+				case BLANK: break;
 				}
-
+				
 			}
 		}
 	}
 
 	public void touch() {
-		touched[centerJ][centerI] = true;
-		if (centerHasMonster()) {
-			monster[centerJ][centerI] = false;
+		if (centerHasMonster())
 			enemylist.remove(0).touch();
-		}
+		data[centerJ][centerI] = Tile.TOUCHED;
 	}
 
 	private void encloseBoundaries() {
 		// properly initialize block array
 		for (int i = 0; i < J; i++) {
-			for (int j = 0; j < I; j++) {
-				data[j][i] = false;
-			}
+			for (int j = 0; j < I; j++)
+				data[j][i] = Tile.BLANK;
 		}
 
 		// Enclose Borders
 		for (int i = 0; i < J; i++) {
-			data[0][i] = data[I - 1][i] = true;
+			data[0][i] = data[I - 1][i] = Tile.WALL;
 		}
 		for (int i = 0; i < I; i++) {
-			data[i][0] = data[i][J - 1] = true;
+			data[i][0] = data[i][J - 1] = Tile.WALL;
 		}
 	}
 
@@ -136,15 +135,15 @@ public class MazeData {
 		for (int i = 0; i < density; i++) { // Make Aisles
 			x = randEven(J);
 			y = randEven(I);
-			data[y][x] = true; // Random Wall
+			data[y][x] = Tile.WALL; // Random Wall
 
 			for (int j = 0; j < complex; j++) {
 				pickNeighbor(x, y, xy, _0123);
 				x_ = xy[0];
 				y_ = xy[1];
 				// If no wall in chosen neighbor
-				if (xy[0] != -1 && !data[y_][x_]) {
-					data[y_][x_] = data[y_ + (y - y_) / 2][x_ + (x - x_) / 2] = true;
+				if (xy[0] != -1 && data[y_][x_] != Tile.WALL) {
+					data[y_][x_] = data[y_ + (y - y_) / 2][x_ + (x - x_) / 2] = Tile.WALL;
 					x = x_;
 					y = y_;
 				}
@@ -155,8 +154,8 @@ public class MazeData {
 	}
 
 	public int[] randomMiddleIJ() {
-		int i = (int) (Math.random() * I/2) + I/2;
-		int j = (int) (Math.random() * J/2) + J/2;
+		int i = (int) (Math.random() * I / 2) + I / 2;
+		int j = (int) (Math.random() * J / 2) + J / 2;
 
 		while (isOpaque(i, j)) {
 			if (!isOpaque(i + 1, j))
@@ -168,34 +167,34 @@ public class MazeData {
 			if (!isOpaque(i, j - 1))
 				return new int[] { i, j - 1 };
 
-			i = (int) (Math.random() * I/2) + I/2;
-			j = (int) (Math.random() * J/2) + I/2;
+			i = (int) (Math.random() * I / 2) + I / 2;
+			j = (int) (Math.random() * J / 2) + I / 2;
 		}
 
 		return new int[] { i, j };
 	}
-	
+
 	public int[] newMonsterIJ() {
-		double o = 2*Math.random()*Math.PI;
+		double o = 2 * Math.random() * Math.PI;
 		int d = 1;
 		double ii = Math.cos(o);
 		double jj = Math.sin(o);
-		
-		int i = exitI + (int)(d * ii);
-		int j = exitJ + (int)(d * jj);
+
+		int i = exitI + (int) (d * ii);
+		int j = exitJ + (int) (d * jj);
 
 		while (isOpaque(i, j) || hasMonster(i, j) || (centerI == i && centerJ == j) || (exitI == i && exitJ == j)) {
-			d += Math.min(I,J)/2*Math.random() + 1;
-			i = exitI + (int)(d * ii);
-			j = exitJ + (int)(d * jj);
-			
+			d += Math.min(I, J) / 2 * Math.random() + 1;
+			i = exitI + (int) (d * ii);
+			j = exitJ + (int) (d * jj);
+
 			if (j >= J || j < 0 || i < 0 || i >= I) {
 				d = 1;
-				o = 2*Math.random()*Math.PI;
+				o = 2 * Math.random() * Math.PI;
 				ii = Math.cos(o);
 				jj = Math.sin(o);
-				i = exitI + (int)(d * ii);
-				j = exitJ + (int)(d * jj);
+				i = exitI + (int) (d * ii);
+				j = exitJ + (int) (d * jj);
 			}
 		}
 
@@ -226,8 +225,8 @@ public class MazeData {
 			break;
 		}
 
-		data[centerJ][centerI] = false;
-		data[exitJ][exitI] = false;
+		data[centerJ][centerI] = Tile.BLANK;
+		data[exitJ][exitI] = Tile.BLANK;
 	}
 
 	private void pickNeighbor(int x, int y, int[] chooseNeighbors, int[] _0123) {

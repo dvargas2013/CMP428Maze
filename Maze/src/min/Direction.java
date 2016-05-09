@@ -1,7 +1,7 @@
 package min;
 
 /* 
- *  which driection that Snake is moving.
+ *  which direction that Snake is moving.
  */
 public enum Direction {
 	//Moving North (Up).
@@ -12,5 +12,4 @@ public enum Direction {
 	South,
 	//Moving West (Left).
 	West
-	
 }

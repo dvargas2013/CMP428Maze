@@ -12,16 +12,13 @@ import bases.MiniGame;
 
 // game
 public class SnakeGame extends MiniGame {
-	//The Serial Version UID.
-	private static final long serialVersionUID = 6678292058307426314L;
-	//The number of milliseconds that should pass between each frame.
-	private static final long FRAME_TIME = 1000L / 50L;
+	private static final long serialVersionUID = -1L;
 	//The minimum length of the snake. This allows the snake to grow right when the game starts, so that we're not just a head moving around on the board.
 	private static final int MIN_SNAKE_LENGTH = 5;
 	//The maximum number of directions that we can have polled in the direction list.
 	private static final int MAX_DIRECTIONS = 3;
+	
 	private BoardPanel board;
-	//private SidePanel side;
 	// The random number generator (used for spawning fruits).
 	private Random random;
 	//The Clock instance for handling the game logic.
@@ -38,87 +35,12 @@ public class SnakeGame extends MiniGame {
 	private int fruitsEaten;
 	// The number of points that the next fruit will award us.
 	private int nextFruitScore;
-	//Entry point of the program. @param args Unused.
-//	public static void main(String[] args) {
-//		SnakeGame snake = new SnakeGame();
-//		snake.startGame();
-//	}
-	KeyAdapter k = new KeyAdapter() {
-		@Override
-		public void keyPressed(KeyEvent e) {
-			switch(e.getKeyCode()) {
-			case KeyEvent.VK_W:
-			case KeyEvent.VK_UP:
-				if(!isPaused && !isGameOver) {
-					if(directions.size() < MAX_DIRECTIONS) {
-						Direction last = directions.peekLast();
-						if(last != Direction.South && last != Direction.North) {
-							directions.addLast(Direction.North);
-						}
-					}
-				}
-				break;
-			case KeyEvent.VK_S:
-			case KeyEvent.VK_DOWN:
-				if(!isPaused && !isGameOver) {
-					if(directions.size() < MAX_DIRECTIONS) {
-						Direction last = directions.peekLast();
-						if(last != Direction.North && last != Direction.South) {
-							directions.addLast(Direction.South);
-						}
-					}
-				}
-				break;						
-			case KeyEvent.VK_A:
-			case KeyEvent.VK_LEFT:
-				if(!isPaused && !isGameOver) {
-					if(directions.size() < MAX_DIRECTIONS) {
-						Direction last = directions.peekLast();
-						if(last != Direction.East && last != Direction.West) {
-							directions.addLast(Direction.West);
-						}
-					}
-				}
-				break;
-			case KeyEvent.VK_D:
-			case KeyEvent.VK_RIGHT:
-				if(!isPaused && !isGameOver) {
-					if(directions.size() < MAX_DIRECTIONS) {
-						Direction last = directions.peekLast();
-						if(last != Direction.West && last != Direction.East) {
-							directions.addLast(Direction.East);
-						}
-					}
-				}
-				break;
-			case KeyEvent.VK_P:
-				if(!isGameOver) {
-					isPaused = !isPaused;
-					logicTimer.setPaused(isPaused);
-				}
-				break;
-			
-			//Reset the game if one is not currently in progress.
-			case KeyEvent.VK_ENTER:
-				if(isNewGame || isGameOver) {
-					resetGame();
-				}
-				break;
-			}
-		}
-		
-	};
 	
-	//Creates a new SnakeGame instance. Creates a new window,and sets up the controller input.
+	//Creates a new SnakeGame instance.
 	public SnakeGame(MainFrame parent) {
 		super(parent);
 		//Initialize the game's panels and add them to the window.
 		this.board = new BoardPanel(this);
-		//this.side = new SidePanel(this);
-	}
-	
-	//Starts the game running.
-	private void startGame() {
 		//Initialize everything we're going to be using.
 		this.random = new Random();
 		this.snake = new LinkedList<>();
@@ -170,7 +92,7 @@ public class SnakeGame extends MiniGame {
 	 */
 	private TileType updateSnake() {
 
-		/*Here we peek at the next direction rather than polling it. While
+		/* Here we peek at the next direction rather than polling it. While
 		 * not game breaking, polling the direction here causes a small bug
 		 * where the snake's direction will change after a game over (though
 		 * it will not move).*/
@@ -324,7 +246,7 @@ public class SnakeGame extends MiniGame {
 
 	@Override
 	public void painting(Graphics g) {
-		board.paintComponent(g);
+		board.paint(g);
 	}
 
 	@Override
@@ -333,27 +255,11 @@ public class SnakeGame extends MiniGame {
 			gameOver();
 		}
 		
-		//Get the current frame's start time.
-		long start = System.nanoTime();
 		//Update the logic timer.
 		logicTimer.update();
 		//If a cycle has elapsed on the logic timer, then update the game.
 		if(logicTimer.hasElapsedCycle()) {
 			updateGame();
-		}
-		//Repaint the board and side panel with the new content.
-//		board.repaint();
-//		side.repaint();
-		// Calculate the delta time between since the start of the frame and sleep 
-		//for the excess time to cap the frame rate. While not incredibly accurate,
-		//it is sufficient for our purposes.
-		long delta = (System.nanoTime() - start) / 1000000L;
-		if(delta < FRAME_TIME) {
-			try {
-				Thread.sleep(FRAME_TIME - delta);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -366,6 +272,70 @@ public class SnakeGame extends MiniGame {
 	@Override
 	public void gainControl() {
 		parent.addKeyListener(k);
-		startGame();
 	}
+	
+	private KeyAdapter k = new KeyAdapter() {
+		@Override
+		public void keyPressed(KeyEvent e) {
+			switch(e.getKeyCode()) {
+			case KeyEvent.VK_W:
+			case KeyEvent.VK_UP:
+				if(!isPaused && !isGameOver) {
+					if(directions.size() < MAX_DIRECTIONS) {
+						Direction last = directions.peekLast();
+						if(last != Direction.South && last != Direction.North) {
+							directions.addLast(Direction.North);
+						}
+					}
+				}
+				break;
+			case KeyEvent.VK_S:
+			case KeyEvent.VK_DOWN:
+				if(!isPaused && !isGameOver) {
+					if(directions.size() < MAX_DIRECTIONS) {
+						Direction last = directions.peekLast();
+						if(last != Direction.North && last != Direction.South) {
+							directions.addLast(Direction.South);
+						}
+					}
+				}
+				break;						
+			case KeyEvent.VK_A:
+			case KeyEvent.VK_LEFT:
+				if(!isPaused && !isGameOver) {
+					if(directions.size() < MAX_DIRECTIONS) {
+						Direction last = directions.peekLast();
+						if(last != Direction.East && last != Direction.West) {
+							directions.addLast(Direction.West);
+						}
+					}
+				}
+				break;
+			case KeyEvent.VK_D:
+			case KeyEvent.VK_RIGHT:
+				if(!isPaused && !isGameOver) {
+					if(directions.size() < MAX_DIRECTIONS) {
+						Direction last = directions.peekLast();
+						if(last != Direction.West && last != Direction.East) {
+							directions.addLast(Direction.East);
+						}
+					}
+				}
+				break;
+			case KeyEvent.VK_P:
+				if(!isGameOver) {
+					isPaused = !isPaused;
+					logicTimer.setPaused(isPaused);
+				}
+				break;
+			
+			//Reset the game if one is not currently in progress.
+			case KeyEvent.VK_ENTER:
+				if(isNewGame || isGameOver) {
+					resetGame();
+				}
+				break;
+			}
+		}	
+	};
 }
