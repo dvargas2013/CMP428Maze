@@ -19,7 +19,7 @@ public class Hud {
 	private BufferedImage bar;
 	private BufferedImage hearts;
 	private BufferedImage boat;
-	private BufferedImage axe;
+	private BufferedImage key;
 
 	private Player player;
 
@@ -39,7 +39,7 @@ public class Hud {
 		bar = Content.BAR[0][0];
 		hearts = Content.HEART[0][0];
 		boat = Content.ITEMS[0][0];
-		axe = Content.ITEMS[0][1];
+		key = Content.ITEMS[0][1];
 
 		font = new Font("Arial", Font.PLAIN, 10 * GamePanel.SCALE);
 		textColor = new Color(47, 64, 126);
@@ -88,9 +88,9 @@ public class Hud {
 		if (player.hasBoat())
 			g.drawImage(boat, 100 * GamePanel.SCALE, yoffset * GamePanel.SCALE, boat.getWidth() * GamePanel.SCALE,
 					boat.getHeight() * GamePanel.SCALE, null);
-		if (player.hasAxe())
-			g.drawImage(axe, 112 * GamePanel.SCALE, yoffset * GamePanel.SCALE, axe.getWidth() * GamePanel.SCALE,
-					axe.getHeight() * GamePanel.SCALE, null);
+		if (player.hasKey())
+			g.drawImage(key, 112 * GamePanel.SCALE, yoffset * GamePanel.SCALE, key.getWidth() * GamePanel.SCALE,
+					key.getHeight() * GamePanel.SCALE, null);
 	}
 
 }

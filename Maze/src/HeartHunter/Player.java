@@ -38,7 +38,7 @@ public class Player extends Entity {
 	private int numHearts;
 	private int totalHearts;
 	private boolean hasBoat;
-	private boolean hasAxe;
+	private boolean hasKey;
 	private boolean onWater;
 	private long ticks;
 
@@ -95,15 +95,15 @@ public class Player extends Entity {
 	}
 
 	public void gotKey() {
-		hasAxe = true;
+		hasKey = true;
 	}
 
 	public boolean hasBoat() {
 		return hasBoat;
 	}
 
-	public boolean hasAxe() {
-		return hasAxe;
+	public boolean hasKey() {
+		return hasKey;
 	}
 
 	// Used to update time.
@@ -112,7 +112,7 @@ public class Player extends Entity {
 	}
 
 	public void setAction() {
-		if (hasAxe) {
+		if (hasKey) {
 			if (currentAnimation == UP && tileMap.getIndex(rowTile - 1, colTile) == 21) {
 				tileMap.setTile(rowTile - 1, colTile, 1);
 				JukeBox.play("tilechange");
