@@ -5,24 +5,29 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import HeartHunter.GamePanel;
 import bases.MainFrame;
 import bases.MiniGame;
 import min.SnakeGame;
 
 public class Maze extends MiniGame implements KeyListener {
-	public boolean DOWN, UP, LEFT, RIGHT;
+	public boolean DOWN, UP, LEFT, RIGHT, Z;
 
-	MazeData maze = new MazeData(36, 36, 1, 1, 10);
+	private static final int big=10, small=50;
+	MazeData maze = new MazeData(36, 36, 1, 1, small);
 	int x, y;
 
 	private static final long serialVersionUID = 1L;
 
 	public Maze(MainFrame main) {
 		super(main);
+		
+		maze.addMonster(new Enemy<GamePanel>(parent,GamePanel.class),maze.exitI,maze.exitJ);
+		
 		for (int i = 0; i < 10; i++) {
 			switch( (int)Math.random()*5 ) {
-			case 0: maze.addMonster(new Enemy(new SnakeGame(parent)));
-			default: maze.addMonster(new Enemy(new SmallGame(parent)));
+			case 0: maze.addMonster(new Enemy<SnakeGame>(parent,SnakeGame.class));
+			default: maze.addMonster(new Enemy<SmallGame>(parent,SmallGame.class));
 			}
 		}
 	}
@@ -63,7 +68,7 @@ public class Maze extends MiniGame implements KeyListener {
 			maze.centerI = maze.I / 2;
 			maze.centerJ = maze.J / 2;
 			winner = true;
-		} else {
+		} else {			
 			if (DOWN) {
 				y += moveby;
 				if (y + csize > maze.blocksize) {
@@ -123,12 +128,19 @@ public class Maze extends MiniGame implements KeyListener {
 
 	@Override
 	public void gainControl() {
-		DOWN = UP = LEFT = RIGHT = false;
+		Z = DOWN = UP = LEFT = RIGHT = false;
 		parent.addKeyListener(this);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		if (e.getKeyChar() == 'z' || e.getKeyChar() == 'Z') {
+			Z = !Z;
+			if ( Z ) maze.blocksize = big;
+			else maze.blocksize = small;
+			x = 0;
+			y = 0;
+		}
 	}
 
 	@Override

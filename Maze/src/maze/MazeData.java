@@ -4,17 +4,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import bases.MiniGame;
+
 public class MazeData {
 	private enum Tile {
 		WALL, ENEMY, BLANK, TOUCHED
 	};
 
 	private final Tile[][] data;
-	private ArrayList<Enemy> enemylist = new ArrayList<Enemy>();
+	private ArrayList<Enemy<? extends MiniGame>> enemylist = new ArrayList<Enemy<? extends MiniGame>>();
 	public final int J, I;
 
 	public int centerI, centerJ;
-	private int exitI, exitJ;
+	int exitI;
+	int exitJ;
 	public int blocksize;
 
 	public MazeData() {
@@ -45,11 +48,18 @@ public class MazeData {
 		return data[j][i] == Tile.ENEMY;
 	}
 
-	public void addMonster(Enemy e) {
+	public void addMonster(Enemy<? extends MiniGame> e) {
 		int[] ij = newMonsterIJ();
 
 		data[ij[1]][ij[0]] = Tile.ENEMY;
 		enemylist.add(e);
+		e.setLocation(ij[0], ij[1]);
+	}
+	
+	public void addMonster(Enemy<? extends MiniGame> e, int i, int j) {
+		data[j][i] = Tile.ENEMY;
+		enemylist.add(e);
+		e.setLocation(i, j);
 	}
 
 	public boolean centerIsOpaque() {
@@ -102,8 +112,23 @@ public class MazeData {
 	}
 
 	public void touch() {
-		if (centerHasMonster())
+		if (centerHasMonster()) {
+			for (Enemy<? extends MiniGame> e: enemylist) { 
+				// Find enemy that is at that location
+				if (e.i == centerI && e.j == centerJ) {
+					enemylist.remove(e);
+					e.touch();
+					data[centerJ][centerI] = Tile.TOUCHED;
+					break;
+				}
+			}
+		}
+		
+		if (centerHasMonster()) {
+			// If you found no enemy at that location grab a random one
 			enemylist.remove(0).touch();
+		}
+		
 		data[centerJ][centerI] = Tile.TOUCHED;
 	}
 
