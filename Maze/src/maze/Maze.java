@@ -27,6 +27,7 @@ public class Maze extends MiniGame implements KeyListener {
 		for (int i = 0; i < 10; i++) {
 			switch( (int)Math.random()*5 ) {
 			case 0: maze.addMonster(new Enemy<SnakeGame>(parent,SnakeGame.class));
+			case 1: maze.addMonster(new Enemy<Connect4>(parent,Connect4.class));
 			default: maze.addMonster(new Enemy<SmallGame>(parent,SmallGame.class));
 			}
 		}

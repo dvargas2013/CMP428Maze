@@ -8,7 +8,7 @@ public class Window extends MainFrame {
 	}
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	Maze maze = new Maze(this);
 	
 	public Window(int w, int h) {
@@ -16,7 +16,7 @@ public class Window extends MainFrame {
 		gainControl();
 		start();
 	}
-
+	
 	@Override
 	public void gainControl() {
 		addCanvas(maze);
