@@ -43,6 +43,12 @@ public class Keys {
 			keyState[F1] = b;
 	}
 
+	public static void reset() {
+		for (int i = 0; i < NUM_KEYS; i++) {
+			keyState[i] = false;
+		}
+	}
+	
 	public static void update() {
 		for (int i = 0; i < NUM_KEYS; i++) {
 			prevKeyState[i] = keyState[i];
