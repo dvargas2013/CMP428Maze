@@ -122,6 +122,9 @@ public class Tetris extends MiniGame implements KeyListener {
 			}
 			updateBoard();
 			break;
+		case KeyEvent.VK_Q:
+			gameOver();
+			break;
 		}
 	}
 

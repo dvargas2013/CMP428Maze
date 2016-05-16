@@ -50,11 +50,11 @@ public abstract class MainFrame extends Frame implements Runnable {
 	public MainFrame(int w, int h) {
 		super();
 		// Don't draw the first time.
-		//setIgnoreRepaint(true);
+		setIgnoreRepaint(true);
 		// I'll tell you when to draw when I'm ready
 
-		//setResizable(false);
-		//setUndecorated(true); // Sorta-full screen type thing
+		setResizable(false);
+		setUndecorated(true); // Sorta-full screen type thing
 		setSize(w, h);
 
 		t = new Thread(this);

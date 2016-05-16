@@ -22,6 +22,7 @@ public class Connect4 extends MiniGame implements MouseListener {
 	private int[][] theArray;
 	private boolean end = false;
 	private int wait = 0; // just a little variable for prepaint
+	private int clicks=0;
 	private static int square=100,circle=70,circles=55;
 	
 	public Connect4(MainFrame main) {
@@ -108,12 +109,17 @@ public class Connect4 extends MiniGame implements MouseListener {
 	public void gainControl() {
 		parent.addMouseListener(this);
 	}
-
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (activeColour == YOU) {
+			clicks=0;
 			int butNum = e.getX() / (getWidth() / MAXCOL) + 1;
 			putDisk(butNum);
+		} else {
+			clicks++;
+			if (clicks > 1)
+				gameOver();
 		}
 	}
 

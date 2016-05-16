@@ -327,7 +327,9 @@ public class SnakeGame extends MiniGame {
 					logicTimer.setPaused(isPaused);
 				}
 				break;
-			
+			case KeyEvent.VK_Q:
+				gameOver();
+				break;
 			//Reset the game if one is not currently in progress.
 			case KeyEvent.VK_ENTER:
 				if(isNewGame || isGameOver) {
