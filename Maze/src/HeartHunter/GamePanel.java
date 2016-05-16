@@ -1,39 +1,39 @@
-package HeartHunter;
+package hearthunter;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import HeartHunter.bases.JukeBox;
-import HeartHunter.bases.Keys;
 import bases.MainFrame;
 import bases.MiniGame;
 import connectfour.Connect4;
-import min.SnakeGame;
+import hearthunter.bases.JukeBox;
+import hearthunter.bases.Keys;
+import snake.SnakeGame;
+import tetris.Tetris;
 
 /**
  * The GamePanel is the drawing canvas. This class is also the one that grabs
  * key events.
  */
 public class GamePanel extends MiniGame implements KeyListener {
-	private static final long serialVersionUID = 1L;
-
 	public static final int WIDTH = 128;
 	public static final int HEIGHT = 100;
 	public static final int HEIGHT2 = HEIGHT + 8;
-	public static final int SCALE = 4;
+	public static int SCALE = 4;
 	public PlayState playstate;
-
+	
 	public GamePanel(MainFrame parent) {
 		super(parent);
+		SCALE = Math.min(getWidth(),getHeight()) / 125;
 		JukeBox.init();
 		playstate = new PlayState(this);
 	}
-
+	
 	public void anotherGame() {
 		MiniGame mg = null;
 		
-		int i = (int) (Math.random() * 2);
+		int i = (int) (Math.random() * 3);
 		System.out.println(i);
 		switch (i) {
 		case 0:
@@ -41,6 +41,9 @@ public class GamePanel extends MiniGame implements KeyListener {
 			break;
 		case 1:
 			mg = new Connect4(parent);
+			break;
+		case 2:
+			mg = new Tetris(parent);
 			break;
 		}
 		

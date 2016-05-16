@@ -1,4 +1,4 @@
-package HeartHunter;
+package hearthunter;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -1,10 +1,10 @@
-package HeartHunter;
+package hearthunter;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import HeartHunter.bases.Entity;
-import HeartHunter.bases.TileMap;
+import hearthunter.bases.Entity;
+import hearthunter.bases.TileMap;
 
 /**
  * May contain a list of tileChanges.

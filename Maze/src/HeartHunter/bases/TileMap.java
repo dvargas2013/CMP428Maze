@@ -1,4 +1,4 @@
-package HeartHunter.bases;
+package hearthunter.bases;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 
 import javax.imageio.ImageIO;
 
-import HeartHunter.GamePanel;
+import hearthunter.GamePanel;
 
 /**
  * The tile map class contains a loaded tile set and a 2d array of the map.

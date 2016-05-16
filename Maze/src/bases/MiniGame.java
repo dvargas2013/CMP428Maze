@@ -1,6 +1,5 @@
 package bases;
 
-import java.awt.Canvas;
 import java.awt.Graphics;
 
 /**
@@ -8,8 +7,7 @@ import java.awt.Graphics;
  * 
  * @author danv
  */
-abstract public class MiniGame extends Canvas {
-	private static final long serialVersionUID = 1L;
+abstract public class MiniGame {
 	protected MainFrame parent;
 
 	public MiniGame(MainFrame main) {

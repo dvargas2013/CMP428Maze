@@ -1,10 +1,10 @@
-package HeartHunter.bases;
+package hearthunter.bases;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import HeartHunter.GamePanel;
+import hearthunter.GamePanel;
 
 /**
  * The game object superclass.

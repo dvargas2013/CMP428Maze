@@ -1,12 +1,12 @@
-package HeartHunter;
+package hearthunter;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import HeartHunter.bases.JukeBox;
-import HeartHunter.bases.Keys;
-import HeartHunter.bases.TileMap;
+import hearthunter.bases.JukeBox;
+import hearthunter.bases.Keys;
+import hearthunter.bases.TileMap;
 
 /**
  * The main playing GameState.
@@ -282,6 +282,8 @@ public class PlayState {
 			player.setDown();
 		if (Keys.isPressed(Keys.SPACE))
 			player.setAction();
+		if (Keys.isPressed(Keys.ENTER))
+			gp.anotherGame();
 	}
 
 	private void eventStart() {

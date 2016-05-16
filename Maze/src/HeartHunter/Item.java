@@ -1,10 +1,10 @@
-package HeartHunter;
+package hearthunter;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import HeartHunter.bases.Entity;
-import HeartHunter.bases.TileMap;
+import hearthunter.bases.Entity;
+import hearthunter.bases.TileMap;
 
 /**
  * There are two types of items: Key and boat.

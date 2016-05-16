@@ -1,7 +1,7 @@
-package HeartHunter;
+package hearthunter;
 
-import HeartHunter.bases.Entity;
-import HeartHunter.bases.TileMap;
+import hearthunter.bases.Entity;
+import hearthunter.bases.TileMap;
 
 /**
  * Simple class that plays animation once and is removed.

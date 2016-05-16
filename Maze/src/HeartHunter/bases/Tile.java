@@ -1,4 +1,4 @@
-package HeartHunter.bases;
+package hearthunter.bases;
 
 import java.awt.image.BufferedImage;
 

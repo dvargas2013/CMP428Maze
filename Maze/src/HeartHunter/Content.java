@@ -1,7 +1,8 @@
-package HeartHunter;
+package hearthunter;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+
 import javax.imageio.ImageIO;
 
 /**

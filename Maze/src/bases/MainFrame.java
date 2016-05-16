@@ -17,14 +17,9 @@ public abstract class MainFrame extends Frame implements Runnable {
 
 	private Thread t; // the game loop thread
 	private boolean on; // thread checks if the game is on
-	private MiniGame active; // whatever minigame is being displayed at the
-								// moment
-	private Stack<MiniGame> previous = new Stack<MiniGame>(); // previous
-																// minigames to
-																// be added when
-																// current one
-																// is call
-																// gameover
+	private MiniGame active; // whatever minigame is being displayed
+	private Stack<MiniGame> previous = new Stack<MiniGame>(); 
+	// previous minigames to be added when current one is gameover
 
 	/**
 	 * Make the gameloop display the active canvas every 16 milliseconds
@@ -55,11 +50,11 @@ public abstract class MainFrame extends Frame implements Runnable {
 	public MainFrame(int w, int h) {
 		super();
 		// Don't draw the first time.
-		setIgnoreRepaint(true);
+		//setIgnoreRepaint(true);
 		// I'll tell you when to draw when I'm ready
 
-		setResizable(false);
-		setUndecorated(true); // Sorta-full screen type thing
+		//setResizable(false);
+		//setUndecorated(true); // Sorta-full screen type thing
 		setSize(w, h);
 
 		t = new Thread(this);
@@ -75,13 +70,13 @@ public abstract class MainFrame extends Frame implements Runnable {
 	 */
 	public void popCanvas() {
 		if (active != null) {
-			remove(active);
+			//remove(active);
 			active.loseControl();
 		}
 
 		if (!previous.isEmpty()) {
 			active = previous.pop();
-			add(active);
+			//add(active);
 			active.gainControl();
 		} else
 			this.gainControl(); // If no previous something needs to happen idk
@@ -95,12 +90,10 @@ public abstract class MainFrame extends Frame implements Runnable {
 	 */
 	public void addCanvas(MiniGame mg) {
 		if (active != null) {
-			remove(active);
 			previous.push(active);
 			active.loseControl();
 		}
 
-		add(mg);
 		mg.gainControl();
 
 		active = mg;
