@@ -250,9 +250,8 @@ public class SnakeGame extends MiniGame {
 
 	@Override
 	public void prepaint() {
-		if (getFruitsEaten() > 5) {
+		if (isGameOver && getFruitsEaten() > 5)
 			gameOver();
-		}
 		
 		//Update the logic timer.
 		logicTimer.update();
