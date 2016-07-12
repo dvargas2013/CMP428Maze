@@ -1,0 +1,17 @@
+git init
+git add .
+git commit
+git clone https://github.com/dvargas2013/CMP428Maze.git
+git remove add origin https://github.com/dvargas2013/CMP428Maze.git
+git remote -v
+git push origin master
+git mv Maze/src/ Maze/oldsrc
+git commit -m "Move Thing to oldSrc"
+git commit -m "Adding the New Source to Things"
+git push
+
+cd CMP428Maze/
+git status 
+git add .
+git commit -m "Edited Min to be a bit more compact"
+git push origin master
