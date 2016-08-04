@@ -70,18 +70,18 @@ public class PlayState {
 		// load hud
 		hud = new Hud(player, hearts);
 
-//		// load music
-//		JukeBox.load("/Music/bgmusic.mp3", "music1");
-//		JukeBox.setVolume("music1", -10);
-//		JukeBox.loop("music1", 1000, 1000, JukeBox.getFrames("music1") - 1000);
-//		JukeBox.load("/Music/finish.mp3", "finish");
-//		JukeBox.setVolume("finish", -10);
-//
-//		// load sfx
-//		JukeBox.load("/SFX/collect.wav", "collect");
-//		JukeBox.load("/SFX/mapmove.wav", "mapmove");
-//		JukeBox.load("/SFX/tilechange.wav", "tilechange");
-//		JukeBox.load("/SFX/splash.wav", "splash");
+		// load music
+		JukeBox.load("/Music/bgmusic.mp3", "music1");
+		JukeBox.setVolume("music1", -10);
+		JukeBox.loop("music1", 1000, 1000, JukeBox.getFrames("music1") - 1000);
+		JukeBox.load("/Music/finish.mp3", "finish");
+		JukeBox.setVolume("finish", -10);
+
+		// load sfx
+		JukeBox.load("/SFX/collect.wav", "collect");
+		JukeBox.load("/SFX/mapmove.wav", "mapmove");
+		JukeBox.load("/SFX/tilechange.wav", "tilechange");
+		JukeBox.load("/SFX/splash.wav", "splash");
 
 		// start event
 		boxes = new ArrayList<Rectangle>();
