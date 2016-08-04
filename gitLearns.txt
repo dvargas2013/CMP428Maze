@@ -18,3 +18,5 @@ git commit -m "Edited Min to be a bit more compact"
 git push origin master
 
 git add -u
+
+git commit (use the :wq vimming is hard)
