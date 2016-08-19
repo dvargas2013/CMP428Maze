@@ -1,1 +1,8 @@
+.DS_Store
+
+# python bins
+__pycache__/
+*.py[ocd]
+
+# java bins
 *.class
