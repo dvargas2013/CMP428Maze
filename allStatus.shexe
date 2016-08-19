@@ -1,0 +1,13 @@
+#!/bin/bash
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+cd ..
+dir="$( pwd )"$"/"
+cd "$dir"
+echo $dir
+
+for d in */ ; do
+ cd "$dir$d"
+ echo "--------------------------------------------------------------------------------"
+ echo "$dir$d"
+ git status
+done
